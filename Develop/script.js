@@ -1,5 +1,5 @@
 // ========== VARIABLES ==========
-var currentTime = new Date();
+var currentTime = moment();
 
 /** An object of today's Date
  * 
@@ -7,7 +7,7 @@ var currentTime = new Date();
  * 
  * @property {Number} m_month Today's month
  */
-var currentDate = { m_day: new Date().getDate(), m_month: new Date().getMonth()};
+var currentDate = { m_day: moment().date(), m_month: moment().date()};
 
 var timerInterval;
 
@@ -24,8 +24,8 @@ $("document").ready(function(){
 
     SetCurrentTimeblock();
 
-    // Set timerInterval to update the time every 5 minutes
-    timerInterval = setInterval(updateTime(), 300000);
+    // Set timerInterval to update the time every 15 seconds
+    timerInterval = setInterval(updateTime(), 15000);
 });
 
 
@@ -36,18 +36,18 @@ $("document").ready(function(){
  * Updates the time and if the hour of currentTime doesn't match, calls @see SetCurretTimeblock
  */
 function updateTime(){
-    currentDate.m_day = new Date().getDay();
-    currentDate.m_month = new Date().getMonth();
+    currentDate.m_day = moment().date();
+    currentDate.m_month = moment().date();
     
-    var t_time = new Date();
+    var t_time = moment();
     
     // Update timeblocks
-    if(t_time.getHours() != currentTime.getHours()){
+    if(t_time.hour() != currentTime.hour()){
         SetCurrentTimeblock();
     }
 
     // Update current time
-    currentTime.setTime(t_time.getTime());
+    currentTime = moment();
 }
 
 function HandleClick(a_event){
@@ -61,7 +61,7 @@ function HandleClick(a_event){
 }
 
 function SetCurrentTimeblock(){
-    var t_hour = currentTime.getHours();
+    var t_hour = currentTime.moment();
 
     for(let i = 9; i <= 17; i++){
         // Remove time classes from textarea
@@ -87,11 +87,9 @@ function SetCurrentTimeblock(){
 function Testing(a_hour, a_minute, a_second){
     console.log("real time is " + currentTime);
 
-    var t_date = new Date();
-    t_date.setHours(a_hour);
-    t_date.setMinutes(a_minute);
-    t_date.setSeconds(a_second);
-    currentTime = new Date(t_date);
+    currentTime.hour(a_hour);
+    currentTime.minute(a_minute);
+    currentTime.second(a_second);
 
     console.log("time set to " + currentTime);
 }
